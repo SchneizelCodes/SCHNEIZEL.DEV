@@ -53,42 +53,44 @@ export function ShaderInspector() {
   const [speed, setSpeed] = useState(0.8);
 
   return (
-    <div className="space-y-4 font-mono text-xs">
+    <div className="space-y-4">
       
-      {/* Top Pass Mode Switcher */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-950/80 rounded-sm border border-slate-800">
-        <div className="flex items-center gap-2">
-          <Layers className="w-4 h-4 text-cyan-400" />
-          <span className="text-slate-300 font-bold">SHADER PASS:</span>
+      {/* Top Pass Mode Switcher: Luxury Pill Selector */}
+      <div className="flex flex-wrap items-center justify-between gap-4 p-4 sm:px-6 bg-white/[0.03] rounded-2xl border border-white/10 backdrop-blur-xl">
+        <div className="flex items-center gap-2.5">
+          <Layers className="w-4 h-4 text-white/80" />
+          <span className="font-sans text-xs text-white uppercase font-semibold tracking-[0.2em]">
+            SHADER PASS
+          </span>
         </div>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1.5 p-1 rounded-full border border-white/10 bg-black/20">
           <button
             onClick={() => setMode("pbr")}
-            className={`px-3 py-1.5 rounded-sm transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-full text-xs font-sans tracking-wider uppercase transition-all cursor-pointer ${
               mode === "pbr"
-                ? "bg-cyan-500 text-black font-bold shadow-[0_0_12px_rgba(0,240,255,0.4)]"
-                : "bg-slate-900 text-slate-400 hover:text-white"
+                ? "bg-white text-slate-950 font-semibold shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                : "text-white/50 hover:text-white"
             }`}
           >
             PBR METALLIC
           </button>
           <button
             onClick={() => setMode("normal")}
-            className={`px-3 py-1.5 rounded-sm transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-full text-xs font-sans tracking-wider uppercase transition-all cursor-pointer ${
               mode === "normal"
-                ? "bg-cyan-500 text-black font-bold shadow-[0_0_12px_rgba(0,240,255,0.4)]"
-                : "bg-slate-900 text-slate-400 hover:text-white"
+                ? "bg-white text-slate-950 font-semibold shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                : "text-white/50 hover:text-white"
             }`}
           >
             NORMAL MAP
           </button>
           <button
             onClick={() => setMode("wireframe")}
-            className={`px-3 py-1.5 rounded-sm transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-full text-xs font-sans tracking-wider uppercase transition-all cursor-pointer ${
               mode === "wireframe"
-                ? "bg-cyan-500 text-black font-bold shadow-[0_0_12px_rgba(0,240,255,0.4)]"
-                : "bg-slate-900 text-slate-400 hover:text-white"
+                ? "bg-white text-slate-950 font-semibold shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+                : "text-white/50 hover:text-white"
             }`}
           >
             WIREFRAME
@@ -96,8 +98,8 @@ export function ShaderInspector() {
         </div>
       </div>
 
-      {/* 3D Viewport Window */}
-      <div className="relative h-[260px] rounded-sm overflow-hidden border border-cyan-500/20 bg-[#05080f] shadow-inner">
+      {/* 3D Viewport Window: Smooth Rounded Frame */}
+      <div className="relative h-[270px] rounded-2xl overflow-hidden border border-white/10 bg-black/40 shadow-2xl">
         <Canvas camera={{ position: [0, 0, 4.2], fov: 45 }}>
           <ambientLight intensity={0.5} />
           <directionalLight position={[10, 10, 5]} intensity={1.5} color="#ffffff" />
@@ -110,15 +112,17 @@ export function ShaderInspector() {
           />
         </Canvas>
 
-        <div className="absolute bottom-2 left-2 text-[10px] text-slate-500 bg-slate-950/80 px-2 py-0.5 rounded border border-slate-800">
-          TOPOLOGY: TORUS_KNOT // 128x32 POLYS
+        <div className="absolute bottom-3 left-3 text-[10px] text-white/60 bg-white/5 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 font-sans tracking-widest uppercase">
+          TOPOLOGY: TORUS KNOT • 128x32 POLYS
         </div>
       </div>
 
-      {/* Real-time Material Controls */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-3 bg-slate-950/60 rounded-sm border border-slate-800">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-slate-400">METALNESS:</span>
+      {/* Real-time Material Controls: Frosted Sliders */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 bg-white/[0.02] rounded-2xl border border-white/10 text-xs font-sans">
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-white/50">
+            METALNESS
+          </span>
           <input
             type="range"
             min="0"
@@ -127,13 +131,15 @@ export function ShaderInspector() {
             disabled={mode !== "pbr"}
             value={metalness}
             onChange={(e) => setMetalness(Number(e.target.value))}
-            className="w-24 accent-cyan-400 disabled:opacity-30 cursor-pointer"
+            className="w-24 accent-white disabled:opacity-20 cursor-pointer"
           />
-          <span className="text-cyan-400 w-8 text-right">{metalness}</span>
+          <span className="text-white font-semibold font-mono w-8 text-right">{metalness}</span>
         </div>
 
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-slate-400">ROUGHNESS:</span>
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-white/50">
+            ROUGHNESS
+          </span>
           <input
             type="range"
             min="0"
@@ -142,13 +148,15 @@ export function ShaderInspector() {
             disabled={mode !== "pbr"}
             value={roughness}
             onChange={(e) => setRoughness(Number(e.target.value))}
-            className="w-24 accent-cyan-400 disabled:opacity-30 cursor-pointer"
+            className="w-24 accent-white disabled:opacity-20 cursor-pointer"
           />
-          <span className="text-cyan-400 w-8 text-right">{roughness}</span>
+          <span className="text-white font-semibold font-mono w-8 text-right">{roughness}</span>
         </div>
 
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-slate-400">ROTATION:</span>
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-[11px] font-medium tracking-[0.18em] uppercase text-white/50">
+            ROTATION
+          </span>
           <input
             type="range"
             min="0"
@@ -156,9 +164,9 @@ export function ShaderInspector() {
             step="0.1"
             value={speed}
             onChange={(e) => setSpeed(Number(e.target.value))}
-            className="w-24 accent-cyan-400 cursor-pointer"
+            className="w-24 accent-white cursor-pointer"
           />
-          <span className="text-cyan-400 w-8 text-right">{speed}x</span>
+          <span className="text-white font-semibold font-mono w-8 text-right">{speed}x</span>
         </div>
       </div>
 

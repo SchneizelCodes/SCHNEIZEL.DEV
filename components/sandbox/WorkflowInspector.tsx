@@ -64,10 +64,10 @@ export function WorkflowInspector() {
   ];
 
   return (
-    <div className="space-y-6 font-mono text-xs">
+    <div className="space-y-6">
       
-      {/* Node Graph Visualization */}
-      <div className="p-6 rounded-sm bg-slate-950/80 border border-slate-800">
+      {/* Node Graph Visualization: Luxury Frosted Container */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-xl shadow-xl">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           {NODES.map((node, i) => {
             const Icon = node.icon;
@@ -77,31 +77,35 @@ export function WorkflowInspector() {
             return (
               <div key={i} className="flex items-center gap-3 w-full md:w-auto">
                 <div
-                  className={`flex-1 md:flex-initial p-4 rounded-sm border transition-all duration-300 flex flex-col items-center text-center min-w-[140px] ${
+                  className={`flex-1 md:flex-initial p-5 rounded-2xl border transition-all duration-300 flex flex-col items-center text-center min-w-[150px] ${
                     isCurrent
-                      ? "bg-cyan-950/80 border-cyan-400 shadow-[0_0_20px_rgba(0,240,255,0.4)] scale-105"
+                      ? "bg-white text-slate-950 border-white shadow-[0_0_30px_rgba(255,255,255,0.4)] scale-105"
                       : isCompleted
-                      ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-300"
-                      : "bg-slate-900/60 border-slate-800 text-slate-400"
+                      ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-300"
+                      : "bg-white/[0.02] border-white/10 text-white/50"
                   }`}
                 >
                   <Icon
-                    className={`w-5 h-5 mb-2 ${
+                    className={`w-5 h-5 mb-2.5 transition-colors ${
                       isCurrent
-                        ? "text-cyan-400 animate-bounce"
+                        ? "text-slate-950"
                         : isCompleted
                         ? "text-emerald-400"
-                        : "text-slate-500"
+                        : "text-white/40"
                     }`}
                   />
-                  <span className="font-bold text-white mb-0.5">{node.title}</span>
-                  <span className="text-[10px] text-slate-400">{node.desc}</span>
+                  <span className={`text-xs font-semibold uppercase tracking-wider mb-1 ${isCurrent ? "text-slate-950" : "text-white"}`}>
+                    {node.title}
+                  </span>
+                  <span className={`text-[10px] tracking-wide ${isCurrent ? "text-slate-600" : "text-white/40"}`}>
+                    {node.desc}
+                  </span>
                 </div>
 
                 {i < NODES.length - 1 && (
                   <ArrowRight
                     className={`hidden md:block w-4 h-4 transition-colors ${
-                      activeStep > i ? "text-emerald-400" : "text-slate-700"
+                      activeStep > i ? "text-emerald-400" : "text-white/20"
                     }`}
                   />
                 )}
@@ -111,37 +115,39 @@ export function WorkflowInspector() {
         </div>
       </div>
 
-      {/* Trigger Button & Status */}
-      <div className="flex items-center justify-between">
+      {/* Trigger Button & Status: WayWild Solid Pill Button */}
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <button
           onClick={runPipeline}
           disabled={isRunning}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-sm font-bold text-xs transition-all cursor-pointer ${
+          className={`flex items-center gap-2 px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-all cursor-pointer shadow-[0_0_25px_rgba(255,255,255,0.2)] ${
             isRunning
-              ? "bg-slate-800 text-slate-500 cursor-not-allowed"
-              : "bg-cyan-500 text-black hover:bg-cyan-400 shadow-[0_0_20px_rgba(0,240,255,0.3)]"
+              ? "bg-white/20 text-white/50 cursor-not-allowed border border-white/10"
+              : "bg-white text-slate-950 hover:bg-slate-200"
           }`}
         >
           <Play className="w-3.5 h-3.5 fill-current" />
           <span>{isRunning ? "PIPELINE EXECUTING..." : "DISPATCH SIMULATED PAYLOAD"}</span>
         </button>
 
-        <span className="text-slate-500 text-[11px]">
-          FLOW_ENGINE: EVENT_DRIVEN // ASYNC
+        <span className="text-[11px] font-sans tracking-[0.2em] uppercase text-white/50">
+          FLOW ENGINE • EVENT DRIVEN ASYNC
         </span>
       </div>
 
-      {/* Execution Telemetry Log Box */}
-      <div className="p-4 rounded-sm bg-[#05080f] border border-slate-800 space-y-2 max-h-[180px] overflow-y-auto">
-        <div className="text-[10px] text-slate-500 uppercase tracking-wider mb-2">
-          Execution Diagnostics Stream:
+      {/* Execution Telemetry Log Box: Frosted Glass Panel */}
+      <div className="p-5 sm:p-6 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-xl space-y-2.5 max-h-[190px] overflow-y-auto">
+        <div className="text-[10px] font-sans tracking-[0.2em] uppercase text-white/40 mb-3">
+          EXECUTION DIAGNOSTICS STREAM
         </div>
         {logs.map((log, idx) => (
-          <div key={idx} className="flex items-center gap-3 text-[11px]">
-            <span className="text-slate-600">{log.timestamp}</span>
-            <span className="text-cyan-400 font-bold">[{log.node}]</span>
-            <span className="text-slate-300 flex-1">{log.message}</span>
-            <span className="text-emerald-400 font-bold">{log.duration}</span>
+          <div key={idx} className="flex flex-wrap items-center gap-3 text-xs font-mono">
+            <span className="text-white/30 text-[10px]">{log.timestamp}</span>
+            <span className="px-2 py-0.5 rounded-full bg-white/10 border border-white/15 text-white text-[10px] font-bold">
+              {log.node}
+            </span>
+            <span className="text-white/70 flex-1">{log.message}</span>
+            <span className="text-emerald-400 font-semibold">{log.duration}</span>
           </div>
         ))}
       </div>

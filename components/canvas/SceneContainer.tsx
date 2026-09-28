@@ -3,7 +3,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Preload } from "@react-three/drei";
-import { QuantumCore } from "./QuantumCore";
+import { InteractiveRobot } from "./InteractiveRobot";
 import { ParticleField } from "./ParticleField";
 import { CameraController } from "./CameraController";
 import { ProjectPods } from "./ProjectPods";
@@ -96,7 +96,7 @@ export function SceneContainer() {
 
             {/* Active 3D Entities */}
             <CameraController />
-            <QuantumCore />
+            <InteractiveRobot />
             <ProjectPods />
             <BadgeTracker />
             <ParticleField count={600} />

@@ -191,70 +191,84 @@ export function TerminalDock() {
           transition={{ type: "spring", damping: 28, stiffness: 280 }}
           className="fixed bottom-0 left-0 right-0 z-50 p-4 sm:p-6 pointer-events-none"
         >
-          <div className="max-w-4xl mx-auto hud-panel rounded-t-md border-t border-x border-cyan-500/40 pointer-events-auto shadow-[0_-10px_40px_rgba(0,0,0,0.8)] flex flex-col max-h-[420px] overflow-hidden">
+          <div className="max-w-4xl mx-auto rounded-3xl border border-white/15 bg-[#070b14]/90 backdrop-blur-2xl pointer-events-auto shadow-[0_20px_70px_rgba(0,0,0,0.9)] flex flex-col max-h-[450px] overflow-hidden">
             
-            {/* Terminal Window Header Bar */}
-            <div className="flex items-center justify-between px-4 py-2.5 bg-slate-950/90 border-b border-slate-800">
+            {/* Terminal Window Header Bar: macOS Glass & Editorial Tracking */}
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/10 bg-white/[0.02]">
+              {/* Traffic control dots */}
               <div className="flex items-center gap-2">
-                <TerminalIcon className="w-4 h-4 text-cyan-400" />
-                <span className="font-mono text-xs text-slate-300 font-bold tracking-wider">
-                  JOSHUA_SHELL // BASH_V2
-                </span>
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse ml-2" />
+                <button
+                  onClick={toggleTerminal}
+                  className="w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-rose-500 transition-colors cursor-pointer"
+                  title="Close"
+                />
+                <button
+                  onClick={toggleTerminal}
+                  className="w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-amber-400 transition-colors cursor-pointer"
+                  title="Minimize"
+                />
+                <button
+                  className="w-2.5 h-2.5 rounded-full bg-white/20 hover:bg-emerald-400 transition-colors cursor-pointer"
+                  title="Expand"
+                />
               </div>
 
-              <div className="flex items-center gap-1.5">
-                <button
-                  onClick={toggleTerminal}
-                  className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
-                  title="Minimize"
-                >
-                  <Minus className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={toggleTerminal}
-                  className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
-                  title="Close Terminal"
-                >
-                  <X className="w-3.5 h-3.5" />
-                </button>
+              {/* Title */}
+              <div className="flex items-center gap-2">
+                <span className="font-sans text-[11px] text-white/70 font-medium tracking-[0.2em] uppercase">
+                  SCHNEIZEL SHELL • BASH V2.4
+                </span>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
               </div>
+
+              {/* Close Button */}
+              <button
+                onClick={toggleTerminal}
+                className="w-7 h-7 rounded-full border border-white/10 bg-white/5 text-white/50 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center cursor-pointer shadow-sm"
+                title="Close Terminal"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
             </div>
 
             {/* Terminal Scroll History Area */}
-            <div className="p-4 overflow-y-auto space-y-4 font-mono text-xs flex-1 bg-[#05080f]/95">
+            <div className="p-5 sm:p-6 overflow-y-auto space-y-4 font-mono text-xs flex-1 bg-transparent">
               {history.map((item, i) => (
                 <div key={i} className="space-y-1.5">
-                  <div className="flex items-center gap-2 text-cyan-400/90 font-bold">
-                    <span className="text-slate-500">&gt;</span>
+                  <div className="flex items-center gap-2 text-white font-medium">
+                    <span className="text-emerald-400">❯</span>
                     <span>{item.command}</span>
                   </div>
-                  <div className="pl-4 text-slate-300">{item.output}</div>
+                  <div className="pl-4 text-white/70">{item.output}</div>
                 </div>
               ))}
               <div ref={bottomRef} />
             </div>
 
-            {/* Terminal Command Input Form */}
+            {/* Terminal Command Input Form: Sleek Pill Capsule */}
             <form
               onSubmit={handleCommand}
-              className="flex items-center gap-2 p-3 bg-slate-950/90 border-t border-slate-800 font-mono text-xs"
+              className="p-3.5 sm:px-5 border-t border-white/10 bg-white/[0.02]"
             >
-              <span className="text-cyan-400 font-bold">guest@schneizel:~$</span>
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="type 'help', 'skills', 'theme emerald', 'stack'..."
-                className="flex-1 bg-transparent text-slate-100 placeholder:text-slate-600 focus:outline-none"
-              />
-              <button
-                type="submit"
-                className="px-2 py-1 rounded bg-cyan-950 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-900/50 transition-colors cursor-pointer"
-              >
-                <CornerDownLeft className="w-3.5 h-3.5" />
-              </button>
+              <div className="flex items-center gap-3 rounded-full border border-white/15 bg-white/5 px-4 py-2 backdrop-blur-md focus-within:border-white/40 focus-within:bg-white/[0.07] transition-all">
+                <span className="text-emerald-400 font-sans text-xs font-semibold tracking-wider">
+                  guest ❯
+                </span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="type 'help', 'skills', 'theme emerald', 'stack'..."
+                  className="flex-1 bg-transparent text-white placeholder:text-white/30 text-xs font-sans focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="w-7 h-7 rounded-full bg-white text-slate-950 flex items-center justify-center hover:bg-slate-200 transition-all cursor-pointer shadow-sm"
+                >
+                  <CornerDownLeft className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </form>
 
           </div>

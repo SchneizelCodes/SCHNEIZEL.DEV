@@ -28,7 +28,7 @@ export interface ProjectData {
 export const PROJECTS: ProjectData[] = [
   {
     id: "hlpshop",
-    title: "HLPSHOP / HealthyLifePhil",
+    title: "HLPSHOP",
     subtitle: "Multi-Vendor E-Commerce & Logistics Engine",
     category: "E-Commerce",
     status: "PRODUCTION",
@@ -47,14 +47,14 @@ export const PROJECTS: ProjectData[] = [
     ],
     techStack: ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "PayMongo", "Tailwind CSS"],
     links: {
-      liveDemo: "https://hlpshop.com",
-      github: "https://github.com/schneizel",
+      liveDemo: "https://hlpshop-pw9kr0wym-schneizelcodes-projects.vercel.app",
+      github: "https://github.com/SchneizelCodes",
     },
-        spatialPosition: [-2.0, 0.7, 0.8],
+    spatialPosition: [-2.0, 0.7, 0.8],
   },
   {
     id: "pandeloot",
-    title: "PandeLoot & System Automation",
+    title: "PANDELOOT",
     subtitle: "Real-Time Inventory & Operational State Machine",
     category: "Systems & Automation",
     status: "ACTIVE",
@@ -73,13 +73,14 @@ export const PROJECTS: ProjectData[] = [
     ],
     techStack: ["TypeScript", "PostgreSQL", "Redis", "Edge Functions", "Tailwind CSS"],
     links: {
-      github: "https://github.com/schneizel",
+      liveDemo: "https://pande-loot-1f4zt009h-schneizelcodes-projects.vercel.app",
+      github: "https://github.com/SchneizelCodes",
     },
-            spatialPosition: [-1.4, -1.2, 1.2],
+    spatialPosition: [-1.4, -1.2, 1.2],
   },
   {
     id: "fintech-stream",
-    title: "To be developed",
+    title: "FINTECH STREAM",
     subtitle: "Real-Time Financial Systems & Orderflow Stream",
     category: "FinTech",
     status: "IN_DEVELOPMENT",
@@ -98,13 +99,13 @@ export const PROJECTS: ProjectData[] = [
     ],
     techStack: ["WebSockets", "HTML5 Canvas", "TypeScript", "TimescaleDB"],
     links: {
-      github: "https://github.com/schneizel",
+      github: "https://github.com/SchneizelCodes",
     },
-     spatialPosition: [1.4, -1.2, 1.2],
+    spatialPosition: [1.4, -1.2, 1.2],
   },
   {
     id: "blender-lab",
-    title: "To be developed",
+    title: "PROCEDURAL 3D LAB",
     subtitle: "Blender 3D Procedural Lab & glTF Pipeline",
     category: "3D & Procedural",
     status: "IN_DEVELOPMENT",
@@ -123,7 +124,7 @@ export const PROJECTS: ProjectData[] = [
     ],
     techStack: ["Blender (Python)", "Three.js", "glTF / GLB", "WebGL"],
     links: {
-      github: "https://github.com/schneizel",
+      github: "https://github.com/SchneizelCodes",
     },
       spatialPosition: [2.0, 0.7, 0.8],
   },

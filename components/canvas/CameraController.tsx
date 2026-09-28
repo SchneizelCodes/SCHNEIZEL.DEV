@@ -22,14 +22,18 @@ export function CameraController() {
     const parallaxX = pointer.x * 0.4;
     const parallaxY = pointer.y * 0.25;
 
-    // 2. Target Camera Position
+    // 2. Aspect-ratio adaptive framing: on narrower/squarer screens, pull camera back to prevent crowding
+    const aspect = state.viewport.aspect;
+    const aspectScale = aspect < 1.6 ? Math.min(1.4, 1.6 / Math.max(aspect, 0.75)) : 1.0;
+
+    // 3. Target Camera Position
     tempTargetPos.set(
       cameraTarget.position[0] + parallaxX,
       cameraTarget.position[1] + parallaxY,
-      cameraTarget.position[2]
+      cameraTarget.position[2] * aspectScale
     );
 
-    // 3. Punchier, buttery-smooth exponential camera translation
+    // 4. Punchier, buttery-smooth exponential camera translation
     const posLerp = 1 - Math.exp(-delta * 5);
     camera.position.lerp(tempTargetPos, posLerp);
 

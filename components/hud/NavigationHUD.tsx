@@ -1,16 +1,15 @@
 "use client";
 
-import { useCommandCenterStore, CoreTheme } from "@/store/useCommandCenterStore";
+import { useCommandCenterStore } from "@/store/useCommandCenterStore";
 import { sound } from "@/lib/sound";
-import { Terminal, Eye, Layers, Activity, Mail, Volume2, VolumeX, Gift } from "lucide-react";
-import { SkyShiftToggle } from "./SkyShiftToggle";
+import { Terminal, Eye, Layers, Volume2, VolumeX, ArrowUpRight } from "lucide-react";
 import { AtmosphereSelector } from "./AtmosphereSelector";
 
 const NAV_ITEMS = [
-  { id: "hero", label: "01 // CORE" },
-  { id: "projects", label: "02 // PROJECTS" },
-  { id: "sandbox", label: "03 // SANDBOX" },
-  { id: "terminal", label: "04 // TERMINAL" },
+  { id: "hero", label: "CORE" },
+  { id: "projects", label: "PROJECTS" },
+  { id: "sandbox", label: "SANDBOX" },
+  { id: "terminal", label: "TERMINAL" },
 ];
 
 export function NavigationHUD() {
@@ -20,12 +19,8 @@ export function NavigationHUD() {
   const mode = useCommandCenterStore((state) => state.mode);
   const setMode = useCommandCenterStore((state) => state.setMode);
 
-  const coreTheme = useCommandCenterStore((state) => state.coreTheme);
-  const setCoreTheme = useCommandCenterStore((state) => state.setCoreTheme);
-
   const toggleTerminal = useCommandCenterStore((state) => state.toggleTerminal);
   const toggleContact = useCommandCenterStore((state) => state.toggleContact);
-  const toggleLootBox = useCommandCenterStore((state) => state.toggleLootBox);
 
   const soundEnabled = useCommandCenterStore((state) => state.soundEnabled);
   const toggleSound = useCommandCenterStore((state) => state.toggleSound);
@@ -51,30 +46,33 @@ export function NavigationHUD() {
     setMode(mode === "spatial" ? "fastTrack" : "spatial");
   };
 
-  const handleThemeChange = (themeId: CoreTheme) => {
-    sound.playClick();
-    setCoreTheme(themeId);
-  };
-
   return (
-    <header className="fixed top-0 left-0 right-0 z-30 p-4 sm:p-6 pointer-events-none">
+    <header className="fixed top-0 left-0 right-0 z-30 px-6 py-6 sm:px-10 pointer-events-none">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         
-        {/* Brand Identity / System Title */}
-        <div className="pointer-events-auto flex items-center gap-3 hud-panel px-4 py-2 rounded-sm border border-cyan-500/20">
-          <Activity className="w-4 h-4 text-cyan-400 animate-pulse" />
+        {/* Brandmark / Signature Identity (Borderless, Floating, Editorial) */}
+        <div 
+          onClick={() => handleNavClick("hero")}
+          className="pointer-events-auto flex items-center gap-3 cursor-pointer group"
+        >
+          <div className="w-8 h-8 rounded-full border border-white/20 bg-white/5 backdrop-blur-md flex items-center justify-center group-hover:border-white/50 transition-colors">
+            <span className="text-xs font-bold tracking-wider text-white">JC</span>
+          </div>
           <div className="flex flex-col">
-            <span className="font-mono text-xs font-bold tracking-wider text-slate-100 uppercase">
-              JOSHUA CAMACHO
-            </span>
-            <span className="font-mono text-[10px] text-cyan-400/70 tracking-widest">
-              SYS.CMD // V2.4
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-semibold tracking-[0.2em] text-white uppercase group-hover:text-cyan-300 transition-colors">
+                SCHNEIZEL
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            </div>
+            <span className="text-[10px] text-white/40 tracking-[0.25em] font-mono">
+              SYSTEMS ARCHITECT
             </span>
           </div>
         </div>
 
-        {/* Section Navigation Nodes */}
-        <nav className="hidden md:flex pointer-events-auto items-center gap-1 hud-panel p-1.5 rounded-sm border border-slate-800">
+        {/* Floating Center Navigation (WayWild Editorial Style: Borderless, Spacious, Clean) */}
+        <nav className="hidden lg:flex pointer-events-auto items-center gap-6 xl:gap-8 px-5 xl:px-6 py-2 rounded-full border border-white/10 bg-black/30 backdrop-blur-xl">
           {NAV_ITEMS.map((item) => {
             const isActive = activeSection === item.id;
             return (
@@ -82,96 +80,82 @@ export function NavigationHUD() {
                 key={item.id}
                 onClick={() => handleNavClick(item.id)}
                 onMouseEnter={() => sound.playHover()}
-                className={`px-3 py-1.5 font-mono text-xs tracking-wider transition-all duration-200 cursor-pointer rounded-sm ${
+                className={`relative text-xs tracking-[0.22em] uppercase transition-all duration-300 cursor-pointer ${
                   isActive
-                    ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-[0_0_10px_rgba(0,240,255,0.2)]"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-800/50"
+                    ? "text-white font-semibold"
+                    : "text-white/50 hover:text-white"
                 }`}
               >
                 {item.label}
+                {isActive && (
+                  <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-[2px] bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                )}
               </button>
             );
           })}
         </nav>
 
-        {/* Controls: Atmosphere Matrix + Loot + Audio + Mode */}
-        <div className="pointer-events-auto flex items-center gap-2">
+        {/* Right Action Hub: Unified Glass Cluster + Solid High-Contrast Pill CTA */}
+        <div className="pointer-events-auto flex items-center gap-2 sm:gap-3">
           
-          {/* Atmosphere Environment Switcher */}
-          <AtmosphereSelector />
-          
-          {/* PandeLoot Mystery Crate Button */}
-          <button
-            onClick={() => {
-              sound.playClick();
-              toggleLootBox();
-            }}
-            onMouseEnter={() => sound.playHover()}
-            className="hud-panel flex items-center gap-1.5 px-2.5 py-2 rounded-sm border border-amber-500/40 text-amber-400 hover:bg-amber-950/40 transition-colors text-xs font-mono cursor-pointer"
-            title="Roll PandeLoot Mystery Crate"
-          >
-            <Gift className="w-3.5 h-3.5 text-amber-400" />
-            <span className="hidden lg:inline text-[11px] font-bold">LOOT CRATE</span>
-          </button>
+          {/* Atmosphere Palette Switcher */}
+          <div className="rounded-full border border-white/10 bg-black/30 backdrop-blur-xl px-1.5 sm:px-2 py-0.5 sm:py-1">
+            <AtmosphereSelector />
+          </div>
 
-          {/* Dual-Mode Switcher */}
+          {/* Spatial 3D / 2D Quick Toggle */}
           <button
             onClick={handleModeToggle}
             onMouseEnter={() => sound.playHover()}
-            className="hud-panel flex items-center gap-2 px-3 py-2 rounded-sm border border-cyan-500/30 text-xs font-mono text-cyan-300 hover:bg-cyan-950/40 transition-colors cursor-pointer"
-            title="Press [ESC] to toggle reader mode"
+            className="hidden sm:flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-white/10 bg-black/30 backdrop-blur-xl text-white/70 hover:text-white hover:border-white/30 transition-all cursor-pointer"
+            title={mode === "spatial" ? "Switch to Fast-Track 2D Dossier" : "Switch to Spatial 3D Experience"}
           >
             {mode === "spatial" ? (
-              <>
-                <Eye className="w-3.5 h-3.5 text-cyan-400" />
-                <span className="hidden sm:inline">SPATIAL 3D</span>
-              </>
+              <Eye className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-300" />
             ) : (
-              <>
-                <Layers className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="hidden sm:inline">FAST-TRACK 2D</span>
-              </>
+              <Layers className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-300" />
             )}
           </button>
 
           {/* Audio SFX Toggle */}
           <button
             onClick={handleSoundToggle}
-            className="hud-panel p-2 rounded-sm border border-slate-800 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors cursor-pointer"
+            className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-white/10 bg-black/30 backdrop-blur-xl text-white/70 hover:text-white hover:border-white/30 transition-all cursor-pointer"
             title={soundEnabled ? "Mute Cyber Audio" : "Unmute Cyber Audio"}
           >
             {soundEnabled ? (
-              <Volume2 className="w-4 h-4 text-cyan-400" />
+              <Volume2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
             ) : (
-              <VolumeX className="w-4 h-4 text-slate-500" />
+              <VolumeX className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/30" />
             )}
           </button>
 
-          {/* Contact Direct Comm */}
-          <button
-            onClick={() => {
-              sound.playClick();
-              toggleContact();
-            }}
-            onMouseEnter={() => sound.playHover()}
-            className="hud-panel p-2 rounded-sm border border-slate-800 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors cursor-pointer"
-            title="Direct Transmission Dispatch"
-          >
-            <Mail className="w-4 h-4" />
-          </button>
-
-          {/* Terminal Launcher */}
+          {/* CLI Terminal Launcher */}
           <button
             onClick={() => {
               sound.playClick();
               toggleTerminal();
             }}
             onMouseEnter={() => sound.playHover()}
-            className="hud-panel p-2 rounded-sm border border-slate-800 text-slate-300 hover:text-cyan-400 hover:border-cyan-500/40 transition-colors cursor-pointer"
+            className="hidden xl:flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 rounded-full border border-white/10 bg-black/30 backdrop-blur-xl text-white/70 hover:text-white hover:border-white/30 transition-all cursor-pointer"
             title="Open UNIX CLI Terminal"
           >
-            <Terminal className="w-4 h-4" />
+            <Terminal className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           </button>
+
+          {/* Luxury Solid Pill CTA (Directly Inspired by WayWild's DISCOVER TRIPS button) */}
+          <button
+            onClick={() => {
+              sound.playClick();
+              toggleContact();
+            }}
+            onMouseEnter={() => sound.playHover()}
+            className="rounded-full bg-white text-slate-950 px-3.5 sm:px-5 py-1.5 sm:py-2 text-[11px] sm:text-xs font-semibold tracking-wider hover:bg-slate-200 transition-all shadow-[0_0_25px_rgba(255,255,255,0.25)] flex items-center gap-1.5 cursor-pointer ml-0.5 sm:ml-1"
+          >
+            <span>CONTACT</span>
+            <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+          </button>
+
         </div>
 
       </div>
