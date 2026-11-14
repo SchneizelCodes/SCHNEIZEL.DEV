@@ -3,12 +3,13 @@
 import { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Preload } from "@react-three/drei";
-import { InteractiveRobot } from "./InteractiveRobot";
 import { ParticleField } from "./ParticleField";
 import { CameraController } from "./CameraController";
-import { ProjectPods } from "./ProjectPods";
-import { BadgeTracker } from "./BadgeTracker";
 import { Preloader } from "./Preloader";
+import { NebulaSkybox } from "./NebulaSkybox";
+import { MilkyWayGalaxy } from "./MilkyWayGalaxy";
+import { StarSystems } from "./StarSystems";
+import { MeteorBelts } from "./MeteorBelts";
 import { useCommandCenterStore } from "@/store/useCommandCenterStore";
 
 export function SceneContainer() {
@@ -33,7 +34,7 @@ export function SceneContainer() {
         <Canvas
           // 60 FPS Ceiling & Battery Saver: Sleep only when in 2D mode
           frameloop={shouldSleepGPU ? "demand" : "always"}
-          camera={{ position: [0, 0, 7], fov: 45 }}
+          camera={{ position: [0, 16.0, 36.0], fov: 45 }}
           dpr={[1, 1.5]}
           gl={{
             antialias: true,
@@ -43,33 +44,33 @@ export function SceneContainer() {
           className="w-full h-full"
         >
           <Suspense fallback={null}>
-            {/* Dynamic WebGL Atmosphere Color */}
+            {/* Deep Obsidian Space Background Color */}
             <color
               attach="background"
               args={[
                 atmosphere === "solarGold"
-                  ? "#0c0803"
+                  ? "#080502"
                   : atmosphere === "blueprintCad"
-                  ? "#030c1a"
+                  ? "#020712"
                   : atmosphere === "matrixEmerald"
-                  ? "#020d08"
-                  : "#05070a"
+                  ? "#010705"
+                  : "#020306"
               ]}
             />
 
-            {/* Dynamic Atmosphere Lighting */}
+            {/* Dynamic Atmosphere Lighting (Calibrated for High Object Contrast) */}
             <ambientLight
               intensity={
                 atmosphere === "solarGold"
-                  ? 0.7
+                  ? 0.45
                   : atmosphere === "blueprintCad"
-                  ? 0.6
-                  : 0.4
+                  ? 0.4
+                  : 0.28
               }
             />
             <directionalLight
-              position={[10, 10, 5]}
-              intensity={atmosphere === "solarGold" ? 2.0 : 1.5}
+              position={[12, 12, 6]}
+              intensity={atmosphere === "solarGold" ? 2.2 : 1.8}
               color={
                 atmosphere === "solarGold"
                   ? "#fbbf24"
@@ -94,11 +95,35 @@ export function SceneContainer() {
               }
             />
 
-            {/* Active 3D Entities */}
+            {/* Celestial Rear-Top Rim Light (Accentuates All 3D Object Silhouettes) */}
+            <directionalLight
+              position={[-14, 16, -12]}
+              intensity={2.6}
+              color={
+                atmosphere === "solarGold"
+                  ? "#fde68a"
+                  : atmosphere === "blueprintCad"
+                  ? "#bae6fd"
+                  : atmosphere === "matrixEmerald"
+                  ? "#a7f3d0"
+                  : "#ffffff"
+              }
+            />
+
+            {/* Cosmic Celestial Nebula & Starfield */}
+            <NebulaSkybox />
+
+            {/* Macro Milky Way Galaxy (Sagittarius A* Core, Bulge, & 4 Spiral Arms) */}
+            <MilkyWayGalaxy />
+
+            {/* Polystellar Category Systems (The Multi-Stellar Orrery) */}
+            <StarSystems />
+
+            {/* 4-Zone Asteroid Belts, Lagrange Swarms & Comets */}
+            <MeteorBelts />
+
+            {/* Active 3D Camera & Particle Atmosphere */}
             <CameraController />
-            <InteractiveRobot />
-            <ProjectPods />
-            <BadgeTracker />
             <ParticleField count={600} />
 
             <Preload all />

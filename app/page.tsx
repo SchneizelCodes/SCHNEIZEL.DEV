@@ -7,9 +7,10 @@ import { FastTrackView } from "@/components/hud/FastTrackView";
 import { ProjectModal } from "@/components/modals/ProjectModal";
 import { TerminalDock } from "@/components/terminal/TerminalDock";
 import { EngineeringSandbox } from "@/components/sandbox/EngineeringSandbox";
-import { SpatialBadgesOverlay } from "@/components/hud/SpatialBadgesOverlay";
 import { ContactModal } from "@/components/modals/ContactModal";
 import { PandeLootModal } from "@/components/modals/PandeLootModal";
+import { StarSystemDrawer } from "@/components/hud/StarSystemDrawer";
+import { MeteorDetailModal } from "@/components/modals/MeteorDetailModal";
 import { FluidCursor } from "@/components/effects/FluidCursor";
 import { useCommandCenterStore } from "@/store/useCommandCenterStore";
 import { sound } from "@/lib/sound";
@@ -42,12 +43,9 @@ export default function Home() {
       {/* Interactive WebGL Navier-Stokes Fluid Cursor Simulation */}
       <FluidCursor />
 
-      {/* 2D Screen-Space Cyber Badges Overlay */}
-      <SpatialBadgesOverlay />
-
-      {/* Ultra-Delicate Ambient Grid & Scanlines (Softened for Editorial Luxury) */}
-      <div className="absolute inset-0 scanlines pointer-events-none z-10 opacity-20" />
-      <div className="absolute inset-0 cyber-grid pointer-events-none z-10 opacity-15" />
+      {/* Soft Vignette & Deep Cosmic Framing (Restful on the Eyes, Highlights Center Space) */}
+      <div className="absolute inset-0 pointer-events-none z-10 bg-[radial-gradient(circle_at_center,transparent_40%,rgba(0,0,0,0.78)_100%)]" />
+      <div className="absolute inset-0 cyber-grid pointer-events-none z-10 opacity-10" />
 
       {/* Floating Borderless Navigation HUD (WayWild Style) */}
       <NavigationHUD />
@@ -179,6 +177,12 @@ export default function Home() {
 
       {/* Slide-out Inspection Modal Tray */}
       <ProjectModal />
+
+      {/* Multi-Stellar System Right Glass Drawer (Update 2) */}
+      <StarSystemDrawer />
+
+      {/* Interactive Asteroid Monolith Modal (Update 3) */}
+      <MeteorDetailModal />
 
       {/* Interactive UNIX CLI Terminal Dock */}
       <TerminalDock />

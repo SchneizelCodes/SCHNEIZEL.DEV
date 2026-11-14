@@ -11,20 +11,20 @@ export interface CameraTarget {
 
 export const CAMERA_PRESETS: Record<string, CameraTarget> = {
   hero: {
-    position: [0, 0, 7],
-    target: [0, 0, 0],
+    position: [0, 36.0, 72.0],
+    target: [0, 14.0, 0],
   },
   projects: {
-    position: [0, 4, 11],
-    target: [0, 0.5, 0],
+    position: [0, 56.0, 110.0],
+    target: [0, 14.0, 0],
   },
   sandbox: {
-    position: [6, 2, 6],
-    target: [0, 0, 0],
+    position: [24.0, 20.0, 20.0],
+    target: [28.0, 14.0, 0.0],
   },
   terminal: {
-    position: [0, -3, 8],
-    target: [0, -1, 0],
+    position: [0, 18.0, 36.0],
+    target: [0, 14.0, 0],
   },
 };
 
@@ -53,6 +53,27 @@ interface CommandCenterState {
   selectedProjectId: string | null;
   setSelectedProjectId: (id: string | null) => void;
 
+  // Multi-Stellar System State
+  selectedStarSystemId: string | null;
+  setSelectedStarSystemId: (id: string | null) => void;
+
+  // Two-Way Spatial Hover Synchronization
+  hoveredPlanetId: string | null;
+  setHoveredPlanetId: (id: string | null) => void;
+
+  // Planetary Syzygy / Alignment Mode (Orbit vs Straight Line Parade)
+  isPlanetsAligned: boolean;
+  setIsPlanetsAligned: (aligned: boolean) => void;
+  togglePlanetsAligned: () => void;
+
+  // Gravitational Scramble Trigger Token
+  scrambleToken: number;
+  triggerScramble: () => void;
+
+  // Interactive Meteor Selection
+  selectedMeteorId: string | null;
+  setSelectedMeteorId: (id: string | null) => void;
+
   isTerminalOpen: boolean;
   toggleTerminal: () => void;
 
@@ -66,17 +87,47 @@ interface CommandCenterState {
   isLootBoxOpen: boolean;
   toggleLootBox: () => void;
   setIsLootBoxOpen: (open: boolean) => void;
+
+  // Third-Person Player POV State (Default to Free Cosmic Orbit & Flight)
+  viewPerspective: "thirdPerson" | "freeOrbit";
+  setViewPerspective: (view: "thirdPerson" | "freeOrbit") => void;
+  toggleViewPerspective: () => void;
+
+  playerPos: [number, number, number];
+  setPlayerPos: (pos: [number, number, number]) => void;
+
+  playerHeading: number;
+  setPlayerHeading: (heading: number) => void;
+
+  isPlayerBoosting: boolean;
+  setIsPlayerBoosting: (boosting: boolean) => void;
+
+  isPlayerMoving: boolean;
+  setIsPlayerMoving: (moving: boolean) => void;
+
+  nearestInteractable: {
+    id: string;
+    name: string;
+    type: "planet" | "asteroid" | "sun" | "blackhole";
+    distance: number;
+    prompt: string;
+  } | null;
+  setNearestInteractable: (
+    item: {
+      id: string;
+      name: string;
+      type: "planet" | "asteroid" | "sun" | "blackhole";
+      distance: number;
+      prompt: string;
+    } | null
+  ) => void;
 }
 
 export const useCommandCenterStore = create<CommandCenterState>((set) => ({
   mode: "spatial",
   activeSection: "hero",
   setMode: (mode) => set({ mode }),
-  setActiveSection: (section) =>
-    set((state) => ({
-      activeSection: section,
-      cameraTarget: CAMERA_PRESETS[section] || state.cameraTarget,
-    })),
+  setActiveSection: (activeSection) => set({ activeSection }),
 
   cameraTarget: CAMERA_PRESETS.hero,
   setCameraTarget: (cameraTarget) => set({ cameraTarget }),
@@ -103,6 +154,23 @@ export const useCommandCenterStore = create<CommandCenterState>((set) => ({
   selectedProjectId: null,
   setSelectedProjectId: (selectedProjectId) => set({ selectedProjectId }),
 
+  selectedStarSystemId: null,
+  setSelectedStarSystemId: (selectedStarSystemId) => set({ selectedStarSystemId }),
+
+  hoveredPlanetId: null,
+  setHoveredPlanetId: (hoveredPlanetId) => set({ hoveredPlanetId }),
+
+  isPlanetsAligned: false,
+  setIsPlanetsAligned: (isPlanetsAligned) => set({ isPlanetsAligned }),
+  togglePlanetsAligned: () =>
+    set((state) => ({ isPlanetsAligned: !state.isPlanetsAligned })),
+
+  scrambleToken: 0,
+  triggerScramble: () => set((state) => ({ scrambleToken: state.scrambleToken + 1 })),
+
+  selectedMeteorId: null,
+  setSelectedMeteorId: (selectedMeteorId) => set({ selectedMeteorId }),
+
   isTerminalOpen: false,
   toggleTerminal: () => set((state) => ({ isTerminalOpen: !state.isTerminalOpen })),
 
@@ -117,4 +185,28 @@ export const useCommandCenterStore = create<CommandCenterState>((set) => ({
   isLootBoxOpen: false,
   toggleLootBox: () => set((state) => ({ isLootBoxOpen: !state.isLootBoxOpen })),
   setIsLootBoxOpen: (isLootBoxOpen) => set({ isLootBoxOpen }),
+
+  // Third-Person Player POV State (Default to Free Cosmic Orbit & Flight)
+  viewPerspective: "freeOrbit",
+  setViewPerspective: (viewPerspective) => set({ viewPerspective }),
+  toggleViewPerspective: () =>
+    set((state) => ({
+      viewPerspective:
+        state.viewPerspective === "thirdPerson" ? "freeOrbit" : "thirdPerson",
+    })),
+
+  playerPos: [0, 1.5, 32.0],
+  setPlayerPos: (playerPos) => set({ playerPos }),
+
+  playerHeading: 0,
+  setPlayerHeading: (playerHeading) => set({ playerHeading }),
+
+  isPlayerBoosting: false,
+  setIsPlayerBoosting: (isPlayerBoosting) => set({ isPlayerBoosting }),
+
+  isPlayerMoving: false,
+  setIsPlayerMoving: (isPlayerMoving) => set({ isPlayerMoving }),
+
+  nearestInteractable: null,
+  setNearestInteractable: (nearestInteractable) => set({ nearestInteractable }),
 }));
